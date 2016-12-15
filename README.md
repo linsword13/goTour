@@ -23,6 +23,8 @@ Golang is
 * [Basic structure](#user-content-basic-structure)
 * [Language features](#user-content-language-features)
     - [The new C?](#user-content-the-new-c)
+    - [Structural typing](#user-content-structural-typing)
+    - [Concurrency](#user-content-concurrency)
 * [Toolings](#user-content-toolings)
 * [Mathematica](#user-content-mathematica)
 
@@ -236,6 +238,37 @@ func foo() {
 }
 ```
 ---
+
+### Structural typing
+Golang uses `interface` to generalize the behaviour of types. A concrete type satisfies an `interface` implicitly.
+
+>In other words, don't check whether it IS-a duck: check whether it QUACKS-like-a duck, WALKS-like-a duck, etc, etc, depending on exactly what subset of duck-like behaviour you need to play your language-games with.
+>
+>-- <cite>Alex Martelli</cite>
+
+Other object-oriented languages have similar concepts. In Java for example:
+
+---
+```.java
+interface Thieve {
+    void steal(void);
+}
+
+// Person1 is a thieve
+class Person1 implements Thieve {
+    void steal(void) {
+        //
+    }
+}
+
+// Person2 is not
+class Person2 {
+    void steal(void) {
+        //
+    }
+}
+```
+--- 
 
 [benchmarkLink]: http://benchmarksgame.alioth.debian.org/u64q/which-programs-are-fastest.html
 
