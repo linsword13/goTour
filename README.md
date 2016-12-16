@@ -38,6 +38,7 @@ Hello world!
 package main
 
 import (
+    "fmt"
     "net/http"
 )
 
@@ -48,7 +49,7 @@ func main() {
 }
 
 func handler(w http.ResponseWriter, r *http.Request) {
-    w.Write([]byte("Hello, 你好!"))
+    fmt.Fprint(w, "Hello, 你好!")
 }
 ```
 ---
@@ -126,6 +127,44 @@ func signal(signo int, foo Sigfunc) Sigfunc {
 ```
 ---
 BTW, no forward function declaration is necessary in golang.
+
+<h4>Function is first-class</h4>
+Together with lexical scoping, first-class function has many interesting use cases. Closure is one example.
+
+`./src/examples/func/func.go`
+
+---
+```.go
+func age(initAge int) func() {
+    i := initAge
+    return func() {
+        i++
+        fmt.Printf("%v years old\n", i)
+    }
+}
+
+func main() {
+    celBirthday := age(18)
+    for i := 0; i < 5; i++ {
+        celBirthday()
+    }
+}
+```
+---
+
+Being a functional programming language, Mathematica can easily do this as well.
+
+---
+```.Mathematica
+makeAge[age_Integer] := Module[{year = age},
+    Print[++year]&
+]
+
+celBDay = makeAge[18];
+
+Do[celBDay[], 5]
+```
+---
 
 <h4>Pointers, but safer</h4>
 Pointer exists, but no pointer arithmetic. Golang is "call-by-value".
@@ -239,6 +278,19 @@ func foo() {
 ```
 ---
 
+<h4>Consistent Unicode encoding support</h4>
+Golang uses UTF-8 behind the scene. 
+
+Mathematica for instance, doesn't fully support the whole range of UTF-8 encoding.
+
+---
+```.Mathematica
+FromCharacterCode[FromDigits["FFFF", 16], "UTF-8"] (* fine *)
+
+FromCharacterCode[FromDigits["10000", 16], "UTF-8"] (* out-of-range *)
+```
+---
+
 ### Structural typing
 Golang uses `interface` to generalize the behaviour of types. A concrete type satisfies an `interface` implicitly.
 
@@ -250,12 +302,12 @@ Other object-oriented languages have similar concepts. In Java for example:
 
 ---
 ```.java
-interface Thieve {
+interface Thief {
     void steal(void);
 }
 
-// Person1 is a thieve
-class Person1 implements Thieve {
+// Person1 is a thief
+class Person1 implements Thief {
     void steal(void) {
         //
     }
@@ -269,6 +321,104 @@ class Person2 {
 }
 ```
 --- 
+
+The "hello world" example is an example of using the interface.
+
+---
+```.go
+// fmt.Fprint looks like this
+func Fprint(w io.Writer, a ...interface{}) (n int, err error) {
+    //
+}
+
+// io.Writer is an interface defined as
+type Writer interface {
+    Write(p []byte) (n int, err error)
+}
+
+// say we want to use fmt.Fprint for our purpose
+type MyWriter struct{
+    filePath string
+}
+
+func (w *MyWriter) Write(p []byte) (n int, err error) {
+    f, err := os.Create(w.filePath)
+    if err != nil {
+        return 0, err
+    }
+    return f.Write(p)
+}
+
+// what's the meaning of interface{}
+```
+---
+
+Interface embedding can be used to extend functionality.
+
+---
+```.go
+type WLExpert interface {
+    knowWL()
+}
+
+type CloudExpert interface {
+    knowCloud()
+}
+
+type SW interface {
+    WLExpert
+    CloudExpert
+    knowNKS()
+    //...
+}
+```
+---
+
+###Concurrency
+
+This is where golang really shines, I think.
+
+<h4>Goroutine</h4>
+`Goroutine` is what golang uses for running concurrent executions. One can regard it as similar to a native OS thread, only more lightweight.
+
+A sequential program runs in a single goroutine. Additional ones are launched by calling the `go` statements.
+
+`./src/examples/goroutines/goroutines.go`
+
+---
+```.go
+func main() {
+    i := []int{1, 2}
+    go func() { i[0] = 3 }()
+    time.Sleep(1 * time.Second)
+    fmt.Printf("%v\n", i)
+}
+```
+---
+
+<h4>Channels</h4>
+Channel is the mechanism for inter-communication between goroutines.
+
+The previous example can be safer using channel.
+
+`./src/examples/channels/channels.go`
+
+---
+```.go
+func main() {
+    i := []int{1, 2}
+    done := make(chan struct{})
+    go func() {
+        i[0] = 3
+        done <- struct{}{}
+    }()
+    <-done
+    fmt.Printf("%v\n", i)
+}
+```
+---
+
+The repo contains a more complete example (`./src/examples/crawler/crawler.go`), a simple web link crawler, to illustrate how goroutines and channels fit together.  
 
 [benchmarkLink]: http://benchmarksgame.alioth.debian.org/u64q/which-programs-are-fastest.html
 
