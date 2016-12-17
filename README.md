@@ -30,6 +30,7 @@ Golang is
     -  [Cross compilation](#user-content-cross-compilation)
     -  [Other tools](#user-content-other-tools)
 * [Mathematica](#user-content-mathematica)
+* [Summary](#user-content-summary)
 
 ## Basic structure
 Hello world!
@@ -504,12 +505,92 @@ Golang can generate C-style shared libraries. `LibraryLink` can then be used to 
 
 Here is the complete workflow of a trivial example.
 
+1. Write up the implementation in golang.
 
+    `./src/examples/mathematica/goSquare/main.go`
 
-[Back][toc]
+    ---
+    ```.go
+    package main
+
+    import "C"
+
+    //export GoSquare
+    func GoSquare(n int) int {
+        return n * n
+    }
+
+    func main() {}
+    ```
+
+2. Build the shared library.
+
+    ```.bash
+    # use .dylib on Mac
+    go build -o ./goSquare.so -buildmode=c-shared ./goSquare
+    ```
+The actual Makefile can be found at `./src/examples/mathematica/Makefile`.
+
+3. Include the shared library in a C file, using LibraryLink's interface.
+
+    `./src/examples/mathematica/goSquare.c`
+
+    ---
+    ```.c
+    #include "WolframLibrary.h"
+    #include "libgoSquare.h"
+
+    DLLEXPORT int callGoFunc(WolframLibraryData libData, mint Argc, MArgument *Args, MArgument Res) {
+        mint in;
+        in = MArgument_getInteger(Args[0]);
+        int res = GoSquare((int)in);
+        MArgument_setInteger(Res, res);
+        return LIBRARY_NO_ERROR;
+    }
+    ```
+
+4. Final step can be done in Mathematica, using the CCompilerDriver package.
+
+    `./src/examples/mathematica/example.nb`
+
+    ---
+    ```.Mathematica
+    SetDirectory[NotebookDirectory[]];
+    Needs["CCompilerDriver`"]
+
+    lib = CreateLibrary[
+        {"callGoFunc.c"}, 
+        "callGoFunc", 
+        "Debug" -> True,
+        "IncludeDirectories" -> NotebookDirectory[],
+        "Libraries" -> "goSquare"
+    ];
+
+    callGo = LibraryFunctionLoad[lib, "callGoFunc", {Integer}, Integer]
+
+    callGo[3]
+    9                 
+    ```
+
+Note: the above works fine on Linux, but I haven't got it to work on Mac yet. Golang's support for creating C-style dynamic library is being [worked on](https://github.com/golang/go/issues/11058).
+
+[Back to TOC][toc]
+
+##Summary
+There are some obvious lackings of golang, but overall it is a language with simplicity at its core and an ever-increasing community.
+
+In case you want to read more:
+
+* [golang.org](https://golang.org)
+* [The Go Programming Language](https://www.amazon.com/Programming-Language-Addison-Wesley-Professional-Computing/dp/0134190440)
+* [The source](https://github.com/golang/go)
+
+[Back to top][top]
 
 [benchmarkLink]: http://benchmarksgame.alioth.debian.org/u64q/which-programs-are-fastest.html
 
 [lineageImg]: images/lineage.png
 
 [toc]: #user-content-outline
+
+[top]: #user-content-a-quick-tour-of-golang

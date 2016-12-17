@@ -1,5 +1,6 @@
 srcDir := ./goSquare
-target := ./build/goSquare.dylib
+target := libgoSquare.so
+target2 := libgoSquare.h
 
 all: build
 
@@ -9,4 +10,4 @@ build:
 	go build -o $(target) -buildmode=c-shared $(srcDir)
 
 clean:
-	rm $(target)
+	rm $(target) $(target2)

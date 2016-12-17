@@ -1,0 +1,69 @@
+(* Content-type: application/vnd.wolfram.mathematica *)
+
+(*** Wolfram Notebook File ***)
+(* http://www.wolfram.com/nb *)
+
+(* CreatedBy='Mathematica 11.0' *)
+
+(*CacheID: 234*)
+(* Internal cache information:
+NotebookFileLineBreakTest
+NotebookFileLineBreakTest
+NotebookDataPosition[       158,          7]
+NotebookDataLength[      1994,         61]
+NotebookOptionsPosition[      1711,         46]
+NotebookOutlinePosition[      2069,         62]
+CellTagsIndexPosition[      2026,         59]
+WindowFrame->Normal*)
+
+(* Beginning of Notebook Content *)
+Notebook[{
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"SetDirectory", "[", 
+   RowBox[{"NotebookDirectory", "[", "]"}], "]"}], ";"}], "\n", 
+ RowBox[{"Needs", "[", "\"\<CCompilerDriver`\>\"", "]"}], "\n", 
+ RowBox[{
+  RowBox[{"lib", " ", "=", " ", 
+   RowBox[{"CreateLibrary", "[", "\n", "\t", 
+    RowBox[{
+     RowBox[{"{", "\"\<callGoFunc.c\>\"", "}"}], ",", " ", "\n", "\t", 
+     "\"\<callGoFunc\>\"", ",", " ", "\n", "\t", 
+     RowBox[{"\"\<Debug\>\"", " ", "\[Rule]", " ", "True"}], ",", "\n", "\t", 
+     
+     RowBox[{"\"\<IncludeDirectories\>\"", " ", "\[Rule]", " ", 
+      RowBox[{"NotebookDirectory", "[", "]"}]}], ",", "\n", "\t", 
+     RowBox[{"\"\<Libraries\>\"", " ", "\[Rule]", " ", "\"\<goSquare\>\""}]}],
+     "\n", "]"}]}], ";"}], "\n", 
+ RowBox[{"callGo", "=", 
+  RowBox[{"LibraryFunctionLoad", "[", 
+   RowBox[{"lib", ",", "\"\<callGoFunc\>\"", ",", 
+    RowBox[{"{", "Integer", "}"}], ",", "Integer"}], "]"}]}], "\n", 
+ RowBox[{"callGo", "[", "3", "]"}], "\n", "9"}], "Code",
+ InitializationCell->False,
+ CellChangeTimes->{{3.6909459458161592`*^9, 3.690945970047391*^9}, {
+   3.690950441145135*^9, 3.690950441847436*^9}, 3.690961967025248*^9}]
+},
+WindowSize->{1190, 732},
+WindowMargins->{{4, Automatic}, {Automatic, 4}},
+FrontEndVersion->"11.0 for Mac OS X x86 (32-bit, 64-bit Kernel) (September \
+21, 2016)",
+StyleDefinitions->"Default.nb"
+]
+(* End of Notebook Content *)
+
+(* Internal cache information *)
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+(*NotebookFileOutline
+Notebook[{
+Cell[558, 20, 1149, 24, 246, "Code",
+ InitializationCell->False]
+}
+]
+*)
+
