@@ -207,6 +207,7 @@ a, ok := foo()
 Let's bash C one more time...
 
 ```.c
+/* confusing return value */
 #include <string.h>
 
 /* int strcmp(const char *str1, const char *str2) */
@@ -217,6 +218,29 @@ int main(void) {
         println("They are equal!");
     }
 }
+
+/* another example: errno in UNIX programming */
+#include <errno.h>
+
+int foo(void) {
+    /* ... */
+    if (wrong()) {
+        errno = ENOENT;
+        return(-1);
+    }
+    return(0);
+}
+
+int main(void) {
+    int res = foo();
+    if (res < 0) {
+        log(errno);
+    }
+    /* another call may overwrite the errno */
+    foo2();
+    return(0);
+}
+
 ```
 
 Having multiple return values also gives golang a cleaner way for error handling.
