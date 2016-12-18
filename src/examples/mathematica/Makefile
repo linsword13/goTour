@@ -4,7 +4,7 @@ target2 := libgoSquare.h
 
 all: build
 
-.PHONY: all build
+.PHONY: all build clean
 
 build:
 	go build -o $(target) -buildmode=c-shared $(srcDir)
