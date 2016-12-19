@@ -128,7 +128,7 @@ BTW, no forward function declaration is necessary in golang.
 <h4>Function is first-class</h4>
 Together with lexical scoping, first-class function has many interesting use cases. Closure is one example.
 
-`./src/examples/func/func.go`
+[`./src/examples/func/func.go`](./src/examples/func/func.go)
 
 ---
 ```.go
@@ -377,7 +377,7 @@ This is where golang really shines, I think.
 
 A sequential program runs in a single goroutine. Additional ones are launched by calling the `go` statements.
 
-`./src/examples/goroutines/goroutines.go`
+[`./src/examples/goroutines/goroutines.go`](./src/examples/goroutines/goroutines.go)
 
 ```.go
 func main() {
@@ -393,7 +393,7 @@ Channel is the mechanism for inter-communication between goroutines.
 
 The previous example can get rid of the race condition using channel.
 
-`./src/examples/channels/channels.go`
+[`./src/examples/channels/channels.go`](./src/examples/channels/channels.go)
 
 ---
 ```.go
@@ -409,7 +409,7 @@ func main() {
 }
 ```
 
-The repo contains a more complete example (`./src/examples/crawler/crawler.go`), a simple web link crawler, to illustrate how goroutines and channels fit together.
+The repo contains a more complete example ([`./src/examples/crawler/crawler.go`](./src/examples/crawler/crawler.go)), a simple web link crawler, to illustrate how goroutines and channels fit together.
 
 [Back to TOC][toc]
 
@@ -418,7 +418,7 @@ The repo contains a more complete example (`./src/examples/crawler/crawler.go`),
 ###Package system
 Golang is opinionated. One example is its package system.
 
-`./src/examples/testing/main.go`, `./src/examples/testing/helper/helper.go`
+[`./src/examples/testing/main.go`](./src/examples/testing/main.go), [`./src/examples/testing/helper/helper.go`](./src/examples/testing/helper/helper.go)
 
 ---
 ```.go
@@ -473,7 +473,7 @@ $ go tool dist list
 GOOS=windows GOARCH=amd64 go build source.go
 ```
 
-A sample makefile can be found in `./src/examples/crawler/Makefile`.
+A sample makefile can be found in [`./src/examples/crawler/Makefile`](./src/examples/crawler/Makefile).
 
 ###Other tools
 | Tool | Description |
@@ -496,7 +496,7 @@ A sample makefile can be found in `./src/examples/crawler/Makefile`.
 
 `go test` and `go doc` are commonly used.
 
-`./src/examples/testing/helper/helper_test.go`
+[`./src/examples/testing/helper/helper_test.go`](./src/examples/testing/helper/helper_test.go)
 
 ---
 ```.go
@@ -531,7 +531,7 @@ Here is the complete workflow of a trivial example.
 
 1. Write up the implementation in golang.
 
-    `./src/examples/mathematica/goSquare/main.go`
+    [`./src/examples/mathematica/goSquare/main.go`](./src/examples/mathematica/goSquare/main.go)
 
     ---
     ```.go
@@ -553,11 +553,11 @@ Here is the complete workflow of a trivial example.
     # use .dylib on Mac
     go build -o ./goSquare.so -buildmode=c-shared ./goSquare
     ```
-The actual Makefile can be found at `./src/examples/mathematica/Makefile`.
+The Makefile can be found at [`./src/examples/mathematica/Makefile`](./src/examples/mathematica/Makefile).
 
 3. Include the shared library in a C file, using LibraryLink's interface.
 
-    `./src/examples/mathematica/goSquare.c`
+    [`./src/examples/mathematica/callGoFunc.c`](./src/examples/mathematica/callGoFunc.c)
 
     ---
     ```.c
@@ -575,7 +575,7 @@ The actual Makefile can be found at `./src/examples/mathematica/Makefile`.
 
 4. Final step can be done in Mathematica, using the CCompilerDriver package.
 
-    `./src/examples/mathematica/example.nb`
+    [`./src/examples/mathematica/example.nb`](./src/examples/mathematica/example.nb)
 
     ---
     ```.Mathematica
