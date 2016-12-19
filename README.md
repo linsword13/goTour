@@ -84,7 +84,7 @@ The benefit of hindsight
 ### The new C?
 Must be, since it is from Ken Thompson, right?
 
-Short answer: no. The good news though, they did learn.
+Short answer: no. The good news though, they did learn from the past.
 
 <h4>Better type declaration syntax</h4>
 Remember this C mess?
@@ -525,7 +525,7 @@ And there are more. Profiling, benchmarking, documentation generation, text edit
 [Back][toc]
 
 ##Mathematica
-Golang can generate C-style shared libraries. `LibraryLink` can then be used to access these golang-generated libraries from Mathematica.
+Golang can generate C-style shared libraries. `LibraryLink` or `NETLink` can then be used to access these golang-generated libraries from Mathematica.
 
 Here is the complete workflow of a trivial example.
 
@@ -553,7 +553,7 @@ Here is the complete workflow of a trivial example.
     # use .dylib on Mac
     go build -o ./goSquare.so -buildmode=c-shared ./goSquare
     ```
-The Makefile can be found at [`./src/examples/mathematica/Makefile`](./src/examples/mathematica/Makefile).
+The Makefile can be found at [`./src/examples/mathematica/Makefile`](./src/examples/mathematica/Makefile). With the shared library in place, NETLink can be used. If the platform doesn't support .net, LibraryLink can be a more portable solution. 
 
 3. Include the shared library in a C file, using LibraryLink's interface.
 
