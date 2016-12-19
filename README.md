@@ -35,7 +35,7 @@ Golang is
 ## Basic structure
 Hello world!
 
-`./src/main.go`
+[`./src/main.go`](./src/main.go)
 
 ---
 ```.go
@@ -596,7 +596,7 @@ The actual Makefile can be found at `./src/examples/mathematica/Makefile`.
     9                 
     ```
 
-Note: the above works fine on Linux, but I haven't got it to work on Mac yet. Golang's support for creating C-style dynamic library is being [worked on](https://github.com/golang/go/issues/11058).
+Note: the above works fine on Linux, but I haven't got it to work on Mac yet. Golang's support for creating C-style dynamic library on Windows is being [worked on](https://github.com/golang/go/issues/11058).
 
 [Back to TOC][toc]
 
